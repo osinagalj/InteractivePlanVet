@@ -1,0 +1,50 @@
+<Label>
+    Primero
+</Label>
+
+
+<div class="d-flex justify-content-center">
+    <div *ngFor="let subject of listSubjects ; let i= index" >
+        <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
+            <div  >
+                    {{ subject.name }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center">
+    <div *ngFor="let subject of listSubjects2 ; let i= index" >
+        <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
+            <div>
+                    {{ subject.name }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div *ngFor="let subject of listSubjects3 ; let i= index" >
+        <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
+            <div>
+                    {{ subject.name }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<div class="d-flex justify-content-center">
+    <div *ngFor="let subject of listSubjectsDB ; let i= index" >
+        <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor(subject)" (click)="changeColor(subject)">
+            <div>
+                    {{ subject.name }}
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+

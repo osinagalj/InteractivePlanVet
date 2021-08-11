@@ -1,0 +1,129 @@
+[   
+
+    {
+        "name": " Anatomia 1",
+        "year": "1",
+        "subjects": [],
+        "subjectsNext": [
+            {
+                "name": " Anatomia 2",
+                "year": "1"
+            }
+        ]
+
+    },
+    {
+        "name": " Quimica",
+        "year": "1",
+        "subjects": [],
+        "subjectsNext": [
+            {
+                "name": " Histologia",
+                "year": "2"
+            }
+        ]
+
+    },
+    {
+        "name": " Biologia",
+        "year": "1",
+        "subjects": [],
+        "subjectsNext": [
+            {
+                "name": " Histologia",
+                "year": "2"
+            }
+        ]
+
+    },
+    {
+        "name": " Ingles 1",
+        "year": "1",
+        "subjects": [],
+        "subjectsNext": [
+        ]
+
+    },
+    {
+        "name": " Histologia",
+        "year": "2",
+        "subjects": [
+            {
+                "name": " Anatomia 1",
+                "year": "1"
+            },
+            {
+                "name": " Biologia",
+                "year": "1"
+            },
+            {
+                "name": " Quimica",
+                "year": "1"
+            }
+        ],
+        "subjectsNext": [
+            {
+                "name": " Anatomia 3",
+                "year": "3"
+            }
+        ]
+
+    },
+    {
+        "name": " Anatomia 2",
+        "year": "2",
+        "subjects": [
+            {
+                "name": " Anatomia 1",
+                "year": "1"
+            }
+        ],
+        "subjectsNext": [
+            {
+                "name": " Anatomia 3",
+                "year": "3"
+            }
+        ]
+
+    },
+    {
+        "name": " Anatomia 3",
+        "year": "3",
+        "subjects": [
+            {
+                "name": " Anatomia 1",
+                "year": "1"
+            },
+            {
+                "name": " Anatomia 2",
+                "year": "2"
+            }
+        ],
+        "subjectsNext": [
+
+        ]
+
+    },
+    {
+        "name": " Bioestadistica",
+        "year": "2",
+        "subjects": [
+
+        ],
+        "subjectsNext": [
+
+        ]
+
+    },
+    {
+        "name": " Microbiologia",
+        "year": "3",
+        "subjects": [
+
+        ],
+        "subjectsNext": [
+
+        ]
+
+    }
+]
