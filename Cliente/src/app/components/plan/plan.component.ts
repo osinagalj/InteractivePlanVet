@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'src/app/models/subject';
 import { SubjectService } from 'src/app/services/subject.service';
-
+import * as $ from 'jquery'; // I faced issue in using jquery's popover
 @Component({
   selector: 'app-plan',
   templateUrl: './plan.component.html',
@@ -20,7 +20,33 @@ export class PlanComponent implements OnInit {
 
   listSubjectsDB: Subject[] = [];
 
-  constructor(private _subjectService: SubjectService,) { }
+  
+
+  constructor(private _subjectService: SubjectService) {
+
+/*     var $: any;
+    $(document).ready(function()
+    {
+      $(document).on('click','.list-down-btn',function(event:any)
+      {
+        event.preventDefault();
+        var target = $(document).attr('data-toggle');
+        $(target).slideToggle();
+        var clicked = event.target;
+        $(clicked).toggleClass("glyphicon-chevron-down  glyphicon-chevron-up");
+      });
+    }); */
+   }
+
+  
+  
+   
+   ShowForm(){
+    $('#PriceForm').removeClass('HideMe');
+  }
+
+  
+  
 
   ngOnInit(): void {
     this.setSubjects();
@@ -46,7 +72,7 @@ export class PlanComponent implements OnInit {
   }
 
   obtenerProductos() {
-    alert('obteneindo p');
+    
     console.log("subjects = ");
     this._subjectService.getProductos().subscribe(data => {
       console.log("data = ");
@@ -64,7 +90,7 @@ export class PlanComponent implements OnInit {
     for (var val of this.listSubjectsDB) {
       let form = document.getElementById(val.name)
       if(form != null){
-        form.style.background = '#ffffff'; 
+        form.style.background = '#5a1361'; 
       }
     }
 
@@ -81,7 +107,7 @@ export class PlanComponent implements OnInit {
     
     let form = document.getElementById(subject.name)
     if(form != null){
-      form.style.background = 'violet';
+      form.style.background = '#6b174e';
       
       console.log('SUBJECT QUE CLICKEO = ' );
       console.log(subject);
@@ -96,7 +122,7 @@ export class PlanComponent implements OnInit {
         console.log("LISTA DE DEPENDENCIAS ROJAS");
         let form = document.getElementById(value.name)
         if(form != null){
-          form.style.background = '#51c481';
+          form.style.background = '#c521ce'; //anteriores
         }
       });
     }
@@ -114,7 +140,7 @@ export class PlanComponent implements OnInit {
           this.changeColorRec(value.subjectsNext); 
           let form = document.getElementById(subject.name)
           if(form != null){
-            form.style.background = '#eb0c0c'; 
+            form.style.background = '#bb1313';  //posteriores
           }
         }
       }else{
