@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const productoController = require('../controllers/subjectController')
+const subjectController = require('../controllers/subjectController')
 // api/productos
-router.post('/', productoController.createSubject);
-router.get('/',productoController.getSubjects);
+router.post('/', subjectController.createSubject);
+router.get('/',subjectController.getSubjects);
+
+router.put('/:id',subjectController.updateSubject);
+router.get('/:id',subjectController.getSubject);
+router.delete('/:id',subjectController.deleteSubject);
 
 
 module.exports = router

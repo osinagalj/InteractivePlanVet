@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: '', component: PlanComponent },
   { path: 'crear-producto', component: CrearProductoComponent },
   { path: 'editar-producto/:id', component: CrearProductoComponent },
+  { path: 'subjects', component: ListarProductosComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

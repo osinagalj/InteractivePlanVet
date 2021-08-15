@@ -6,18 +6,18 @@
                     <span class="titulo"> {{ titulo | uppercase }}</span>
                     <form class="mt-3" [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
                         <div class="mb-3">
-                            <input type="text" formControlName="producto" class="form-control form-control-lg"
+                            <input type="text" formControlName="subjectName" class="form-control form-control-lg"
                                 placeholder="Nombre de la materia">
                             <div class="text-danger"
-                                *ngIf="productoForm.get('producto')?.hasError('required') && productoForm.get('producto')?.touched">
+                                *ngIf="productoForm.get('subjectName')?.hasError('required') && productoForm.get('subjectName')?.touched">
                                 <span>El nombre de la <strong>es obligatorio</strong></span>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="number" formControlName="precio" class="form-control form-control-lg" min="1" max="6"
+                            <input type="number" formControlName="subjectYear" class="form-control form-control-lg" min="1" max="6"
                                 placeholder="Año">
                             <div class="text-danger"
-                                *ngIf="productoForm.get('precio')?.hasError('required') && productoForm.get('precio')?.touched">
+                                *ngIf="productoForm.get('subjectYear')?.hasError('required') && productoForm.get('subjectYear')?.touched">
                                 <span>El año <strong>es obligatorio</strong></span>
                             </div>
                         </div>
@@ -34,141 +34,68 @@
                         </div>
                         
 
+                      <div class="mb-3"  >
+                        <div class="row">
+                          <div class="col-md-6">Materias Correlativas(Previas)</div>
+                          
+                        </div>
 
+                      </div>
 
-                        <!-- nuevoo viernes -->
-                        <div style="float: left;"> Materias Correlativas </div>
-
-                        <div class="accordion accordion-flush" id="accordionFlushExample">
-
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                  1º
-                                </button>
-                              </h2>
-                              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <label style="float:left">All</label>
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                      </li>
-                                </ul>
-                                <ul class="list-group" *ngFor="let item of listSubjects;">
-                                    <li class="list-group-item">
-                                        <label style="float:left">{{item.name}}</label>
-                                        
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                      </li>
-                                </ul>
-                              </div>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                  2º
-                                </button>
-                              </h2>
-                              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <label style="float:left">All</label>
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                      </li>
-                                </ul>
-                                <ul class="list-group" *ngFor="let item of listSubjects2;">
-                                    <li class="list-group-item">
-                                        <label style="float:left">{{item.name}}</label>
-                                        
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                      </li>
-                                </ul>
-                              </div>
-                            </div>
-
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingThree">
-                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                    3º
-                                  </button>
-                                </h2>
-                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                  <ul class="list-group">
-                                      <li class="list-group-item">
-                                          <label style="float:left">All</label>
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
+                      
+                        
+                          
+                          <!-- accordion 1 -->
+                            <div class="accordion" id="accordionExample" >
+                                <div class="accordion-item" *ngFor="let item of selectedData; let i = index" [attr.data-index]="6">
+                                  <h2 class="accordion-header" [id]="'heading'+i">
+                                    <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
+                                      {{item.header}}
+                                    </button>
+                                  </h2>
+                                  <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                      <ul class="list-group" *ngFor="let subject of item.data;">
+                                        <li class="list-group-item">
+                                            <label style="float:left">{{subject.value}}</label>
+                                            <input class="form-check-input me-1" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:right">
                                         </li>
-                                  </ul>
-                                  <ul class="list-group" *ngFor="let item of listSubjects2;">
-                                      <li class="list-group-item">
-                                          <label style="float:left">{{item.name}}</label>
-                                          
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                        </li>
-                                  </ul>
+                                    </ul>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-
-
-                              <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingFour">
-                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                                    4º
-                                  </button>
-                                </h2>
-                                <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                                  <ul class="list-group">
-                                      <li class="list-group-item">
-                                          <label style="float:left">All</label>
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                        </li>
-                                  </ul>
-                                  <ul class="list-group" *ngFor="let item of listSubjects2;">
-                                      <li class="list-group-item">
-                                          <label style="float:left">{{item.name}}</label>
-                                          
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                        </li>
-                                  </ul>
-                                </div>
-                              </div>
-
-
-                              <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingFIve">
-                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFIve" aria-expanded="false" aria-controls="flush-collapseFIve">
-                                    5º
-                                  </button>
-                                </h2>
-                                <div id="flush-collapseFIve" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                  <ul class="list-group">
-                                      <li class="list-group-item">
-                                          <label style="float:left">All</label>
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                        </li>
-                                  </ul>
-                                  <ul class="list-group" *ngFor="let item of listSubjects2;">
-                                      <li class="list-group-item">
-                                          <label style="float:left">{{item.name}}</label>
-                                          
-                                          <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." style="float:right">
-                                        </li>
-                                  </ul>
-                                </div>
-                              </div>
-
-
-                          </div>
+                            
+                        <!-- accordion 2 -->
+<!--                               <div class="accordion" id="accordionExample" style="width: 50%;">
+                                  <div class="accordion-item" *ngFor="let item of selectedData; let i = index">
+                                    <h2 class="accordion-header" [id]="'heading'+i">
+                                      <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
+                                        {{item.header}}
+                                      </button>
+                                    </h2>
+                                    <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                                      <div class="accordion-body">
+                                        <ul class="list-group" *ngFor="let subject of item.data;">
+                                          <li class="list-group-item">
+                                              <label style="float:left">{{subject.value}}</label>
+                                              <input class="form-check-input me-1" type="checkbox"  (change)="setCheck(item)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:right">
+                                          </li>
+                                      </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div> -->
+                       
 
                           <label> </label>
 
 
                             <!-- Fin viernes -->
-
-                        <div class="mb-3">
+ 
+                        <div class="mb-3"> <!-- [disabled]="productoForm.invalid" -->
                             <button routerLink="/" class="btn btn-secondary btn-lg float-start">VOLVER</button>
-                            <button type="submit" [disabled]="productoForm.invalid" class="btn btn-success btn-lg float-end">ACEPTAR</button>
+                            <button type="submit"  class="btn btn-success btn-lg float-end">ACEPTAR</button>
                         </div>
                     </form>
                 </div>
@@ -176,3 +103,112 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+
+
+                        
+                            <div class="accordion accordion-flush" id="accordionFlushExample" style="width: 50%;">
+
+                              <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    1º
+                                  </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                  <ul class="list-group" *ngFor="let item of subjects1;">
+                                      <li class="list-group-item">
+                                          <label style="float:left">{{item.value}}</label>
+                                          
+                                          <input class="form-check-input me-1" type="checkbox"  (change)="setCheck(item)" [checked]="item.isSelected"  value="" aria-label="..." style="float:right">
+                                        </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingTwo">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                    2º
+                                  </button>
+                                </h2>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                                  <ul class="list-group" *ngFor="let item of subjects2;">
+                                      <li class="list-group-item">
+                                          <label style="float:left">{{item.value}}</label>
+                                          
+                                          <input class="form-check-input me-1" type="checkbox" (change)="setCheck(item)" [checked]="item.isSelected"  value="" aria-label="..." style="float:right">
+                                        </li>
+                                  </ul>
+                                </div>
+                              </div>
+  
+  
+                              <div class="accordion-item">
+                                  <h2 class="accordion-header" id="flush-headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                      3º
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                                    <ul class="list-group" *ngFor="let item of subjects3;">
+                                        <li class="list-group-item">
+                                            <label style="float:left">{{item.value}}</label>
+                                            
+                                            <input class="form-check-input me-1" type="checkbox" (change)="setCheck(item)" [checked]="item.isSelected"  value="" aria-label="..." style="float:right">
+                                          </li>
+                                    </ul>
+                                  </div>
+                                </div>
+  
+  
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="flush-headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                                      4º
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                                    <ul class="list-group" *ngFor="let item of subjects4;">
+                                        <li class="list-group-item">
+                                            <label style="float:left">{{item.value}}</label>
+                                            
+                                            <input class="form-check-input me-1" type="checkbox" (change)="setCheck(item)" [checked]="item.isSelected"  value="" aria-label="..." style="float:right">
+                                          </li>
+                                    </ul>
+                                  </div>
+                                </div>
+  
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="flush-headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                                      5º
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                                    <ul class="list-group" *ngFor="let item of subjects5">
+                                      <li class="list-group-item">
+                                          <label style="float:left">{{item.value}}</label>
+                                          <input class="form-check-input me-1" type="checkbox" (change)="setCheck(item)" [checked]="item.isSelected"  style="float:right"/> 
+                                           
+                                      </li>
+                                    </ul>    
+                                  </div>
+                                </div>
+                            </div> -->

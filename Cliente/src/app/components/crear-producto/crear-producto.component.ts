@@ -17,8 +17,65 @@ export class CrearProductoComponent implements OnInit {
 
   title = 'Select/ Unselect All Checkboxes in Angular - FreakyJolly.com';
   masterSelected:boolean;
-  checklist:any;
+
   checkedList:any;
+
+  //this.subjects1.push({id:i1,value:val.name,isSelected:false});
+
+
+
+
+  oneAtATime : Boolean = true;
+  isCustomHeaderOpen: Boolean =  false;
+  isFirstOpen: Boolean = true;
+  isFirstDisabled:Boolean = false;
+
+  groups = [
+    {
+      title: 'Dynamic Group Header - 1',
+      content: 'Dynamic Group Body - 1'
+    },
+    {
+      title: 'Dynamic Group Header - 2',
+      content: 'Dynamic Group Body - 2'
+    }
+  ];
+
+  items = ['Item 1', 'Item 2', 'Item 3'];
+
+  addItem(): void {
+    var newItemNo = this.items.length + 1;
+    this.items.push('Item ' + newItemNo);
+  }
+
+
+
+
+  subjects1 = [
+    {id:1,value:'All',isSelected:false}
+ ];
+
+ subjects2 = [
+  {id:1,value:'All',isSelected:false}
+];
+
+subjects3 = [
+  {id:1,value:'All',isSelected:false}
+];
+subjects4 = [
+  {id:1,value:'All',isSelected:false}
+];
+
+subjects5 = [
+  {id:1,value:'All',isSelected:false}
+];
+
+selectedData = [{ id: 1, header:"1º",data:this.subjects1},
+                { id: 2, header:"2º",data:this.subjects2},
+                { id: 3, header:"3º",data:this.subjects3},
+                { id: 4, header:"4º",data:this.subjects4},
+                { id: 5, header:"5º",data:this.subjects5}
+];
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -26,53 +83,19 @@ export class CrearProductoComponent implements OnInit {
               private _subjectService: SubjectService,
               private aRouter: ActivatedRoute) { 
     this.productoForm = this.fb.group({
-      producto: ['', Validators.required],
-      categoria: ['', Validators.required],
-      ubicacion: ['', Validators.required],
-      precio: ['', Validators.required],
-      
+      subjectName: ['', Validators.required],
+      subjectYear: ['', Validators.required],
+
     })
     this.id = this.aRouter.snapshot.paramMap.get('id');
 
-
     this.masterSelected = false;
-    this.checklist = [
-      {id:1,value:'Elenor Anderson',isSelected:false},
-      {id:2,value:'Caden Kunze',isSelected:true},
-      {id:3,value:'Ms. Hortense Zulauf',isSelected:true},
-      {id:4,value:'Grady Reichert',isSelected:false},
-      {id:5,value:'Dejon Olson',isSelected:false},
-      {id:6,value:'Jamir Pfannerstill',isSelected:false},
-      {id:7,value:'Aracely Renner DVM',isSelected:false},
-      {id:8,value:'Genoveva Luettgen',isSelected:false}
-    ];
-    this.getCheckedItemList();
+
+    //this.getCheckedItemList();
 
   }
 
-    // Get List of Checked Items
-    getCheckedItemList(){
-      this.checkedList = [];
-      for (var i = 0; i < this.checklist.length; i++) {
-        if(this.checklist[i].isSelected)
-        this.checkedList.push(this.checklist[i]);
-      }
-      this.checkedList = JSON.stringify(this.checkedList);
-    }
-    checkUncheckAll() {
-      for (var i = 0; i < this.checklist.length; i++) {
-        this.checklist[i].isSelected = this.masterSelected;
-      }
-      this.getCheckedItemList();
-    }
-  
-    // Check All Checkbox Checked
-    isAllSelected() {
-      this.masterSelected = this.checklist.every(function(item:any) {
-          return item.isSelected == true;
-        })
-      this.getCheckedItemList();
-    }
+
 
 
   ngOnInit(): void {
@@ -84,8 +107,12 @@ export class CrearProductoComponent implements OnInit {
   listSubjects2: Subject[] = [];
   listSubjects3: Subject[] = [];
 
+
+
   obtenerProductos() {
     
+
+
     console.log("subjects = ");
     this._subjectService.getProductos().subscribe(data => {
       console.log("data = ");
@@ -102,42 +129,96 @@ export class CrearProductoComponent implements OnInit {
 
   setQueques(){
     
+    let i1 = 2;
+    let i2 = 2;
+    let i3 = 2;
+    let i4 = 2;
+    let i5 = 2;
     console.log ('variables db queque');
+
+
     for (var val of this.listSubjectsDB) {
       console.log (val);
-      if(val.year == '1'){
-        this.listSubjects.push(val);
+      if(val.year == 1){
+        this.subjects1.push({id:i1,value:val.name,isSelected:false});
+        i1 = i1+ 1;
       }
-      if(val.year == '2'){
-        this.listSubjects2.push(val);
+      if(val.year == 2){
+        this.subjects2.push({id:i2,value:val.name,isSelected:false});
+        i1 = i2+ 1;
       }
-      if(val.year == '3'){
-        this.listSubjects3.push(val);
+      if(val.year == 3){
+        this.subjects3.push({id:i3,value:val.name,isSelected:false});
+        i3 = i3+ 1;
+      }
+      if(val.year == 4){
+        this.subjects4.push({id:i4,value:val.name,isSelected:false});
+        i4 = i4+ 1;
+      }
+      if(val.year == 5){
+        this.subjects5.push({id:i5,value:val.name,isSelected:false});
+        i5 = i5+ 1;
       }
     }
 
+  }
+
+  setCheck(e:any) {
+    if(e.isSelected)
+      e.isSelected = false;
+    else{
+      e.isSelected = true;
+    }
+  }
+
+  addSubjectsToSend(lista:any, CheckList: any){
+    for (var val of CheckList) {
+      if(val.isSelected == true){
+        const SUBJECT: Subject = {
+          name: val.value,
+          year: 1,
+          subjects: null
+        }
+        lista.push(SUBJECT);
+      }
+    }
   }
 
   agregarProducto() {
 
-    const PRODUCTO: Producto = {
-      nombre: this.productoForm.get('producto')?.value,
-      categoria: this.productoForm.get('categoria')?.value,
-      ubicacion: this.productoForm.get('ubicacion')?.value,
-      precio: this.productoForm.get('precio')?.value,
+    let subjectSeleccionadas: Subject[] = [];
+    let subjectSeleccionadas2: Subject[] = [];
+
+    console.log(this.subjects1);
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects1);  
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects2);
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects3);
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects4);
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects5);
+
+
+
+    const SUBJECT: Subject = {
+      name: this.productoForm.get('subjectName')?.value,
+      year: this.productoForm.get('subjectYear')?.value,
+      subjects: subjectSeleccionadas
+      
     }
 
-/*     console.log(PRODUCTO);
-    this._productoService.guardarProducto(PRODUCTO).subscribe(data => {
+    console.log("MATERIA A AGREGAR");
+    console.log(SUBJECT);
+    this._subjectService.guardarProducto(SUBJECT).subscribe(data => {
       this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
-      this.router.navigate(['/']);
+      //this.router.navigate(['/']);
     }, error => {
+      this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
       console.log(error);
       this.productoForm.reset();
-    }) */
+    }) 
 
   
   }
+
 
   esEditar() {
 
@@ -155,3 +236,29 @@ export class CrearProductoComponent implements OnInit {
   }
 
 }
+
+
+
+    // Get List of Checked Items
+/*     getCheckedItemList(){
+      this.checkedList = [];
+      for (var i = 0; i < this.checklist.length; i++) {
+        if(this.checklist[i].isSelected)
+        this.checkedList.push(this.checklist[i]);
+      }
+      this.checkedList = JSON.stringify(this.checkedList);
+    }
+    checkUncheckAll() {
+      for (var i = 0; i < this.checklist.length; i++) {
+        this.checklist[i].isSelected = this.masterSelected;
+      }
+      this.getCheckedItemList();
+    } */
+  
+    // Check All Checkbox Checked
+/*     isAllSelected() {
+      this.masterSelected = this.checklist.every(function(item:any) {
+          return item.isSelected == true;
+        })
+      this.getCheckedItemList();
+    } */

@@ -18,7 +18,7 @@ export class SubjectService {
     return this.http.get(this.url);
   }
 
-/*   eliminarProducto(id: string): Observable<any> {
+  eliminarProducto(id: string): Observable<any> {
     return this.http.delete(this.url + id);
   }
 
@@ -28,5 +28,5 @@ export class SubjectService {
 
   obtenerProducto(id: string): Observable<any> {
     return this.http.get(this.url + id);
-  } */
+  }
 }

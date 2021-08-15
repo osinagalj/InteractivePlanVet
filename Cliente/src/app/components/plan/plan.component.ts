@@ -9,12 +9,7 @@ import * as $ from 'jquery'; // I faced issue in using jquery's popover
 })
 export class PlanComponent implements OnInit {
 
-
-  listSubjects: Subject[] = [];
-  listSubjects2: Subject[] = [];
-  listSubjects3: Subject[] = [];
-
-
+  
   listSubjectsNext: Subject[] = [];
   listSubjectsAntes: Subject[] = [];
 
@@ -24,27 +19,11 @@ export class PlanComponent implements OnInit {
 
   constructor(private _subjectService: SubjectService) {
 
-/*     var $: any;
-    $(document).ready(function()
-    {
-      $(document).on('click','.list-down-btn',function(event:any)
-      {
-        event.preventDefault();
-        var target = $(document).attr('data-toggle');
-        $(target).slideToggle();
-        var clicked = event.target;
-        $(clicked).toggleClass("glyphicon-chevron-down  glyphicon-chevron-up");
-      });
-    }); */
+
    }
 
   
   
-   
-   ShowForm(){
-    $('#PriceForm').removeClass('HideMe');
-  }
-
   
   
 
@@ -53,23 +32,7 @@ export class PlanComponent implements OnInit {
     this.obtenerProductos();
   }
 
-  setQueques(){
-    
-    console.log ('variables db queque');
-    for (var val of this.listSubjectsDB) {
-      console.log (val);
-      if(val.year == '1'){
-        this.listSubjects.push(val);
-      }
-      if(val.year == '2'){
-        this.listSubjects2.push(val);
-      }
-      if(val.year == '3'){
-        this.listSubjects3.push(val);
-      }
-    }
 
-  }
 
   obtenerProductos() {
     
@@ -80,7 +43,7 @@ export class PlanComponent implements OnInit {
       this.listSubjectsDB = data;
       console.log("dataDB = ");
       console.log(this.listSubjectsDB );
-      this.setQueques();
+    //  this.setQueques();
     }, error => {
       console.log(error);
     })
@@ -90,7 +53,7 @@ export class PlanComponent implements OnInit {
     for (var val of this.listSubjectsDB) {
       let form = document.getElementById(val.name)
       if(form != null){
-        form.style.background = '#5a1361'; 
+        form.style.background = '#389FB1';  //color original
       }
     }
 
@@ -125,6 +88,20 @@ export class PlanComponent implements OnInit {
           form.style.background = '#c521ce'; //anteriores
         }
       });
+
+    //para todas las materias, la pinto de rojo si la que sleeccione esta en la lista de depednencias
+      for (var varr of this.listSubjectsDB) { 
+          for(var correlativa of varr.subjects){ //para cada materia correlativa
+              if(correlativa.name == subject.name){
+                let form = document.getElementById(varr.name)
+                if(form != null){
+                  form.style.background = '#dc3545'; //anteriores
+                }
+              }
+          }
+        this.changeColorRec(val);
+      }
+
     }
     
 
@@ -148,7 +125,7 @@ export class PlanComponent implements OnInit {
 
         let form = document.getElementById(subject.name)
         if(form != null){
-          form.style.background = '#eb0c0c'; 
+          form.style.background = '#389FB1'; 
 /*           for(var sub of this.listSubjectsDB){
             if(sub.name == )
           } */
@@ -247,3 +224,29 @@ export class PlanComponent implements OnInit {
   
 
 }
+
+
+
+/*   setQueques(){
+    
+    console.log ('variables db queque');
+    for (var val of this.listSubjectsDB) {
+      console.log (val);
+      if(val.year == 1){
+        this.listSubjects.push(val);
+      }
+      if(val.year == '2'){
+        this.listSubjects2.push(val);
+      }
+      if(val.year == '3'){
+        this.listSubjects3.push(val);
+      }
+      if(val.year == '4'){
+        this.listSubjects4.push(val);
+      }
+      if(val.year == '5'){
+        this.listSubjects5.push(val);
+      }
+    } */
+
+//  }

@@ -6,17 +6,13 @@ const SubjectSchema = mongoose.Schema({
         required: true
     },
     year: {
-        type: String,
+        type: Number,
         required: true
     },
     subjects: {
         type: [{}],
         required: false
-    },
-    subjectsNext: {
-        type: [{}],
-        required: false
-    },
+    }
 
 });
 
