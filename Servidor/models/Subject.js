@@ -12,6 +12,10 @@ const SubjectSchema = mongoose.Schema({
     subjects: {
         type: [{}],
         required: false
+    },
+    quarter: {
+        type: Number,
+        required: false
     }
 
 });

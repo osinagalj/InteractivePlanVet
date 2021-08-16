@@ -8,16 +8,16 @@ function getSubjectsBefore(subject) {
     let lista = [];
     console.log("-------------------------------------------------");
     console.log("MATERIA ELEGIDA POR EL USUARIO");
-    console.log(subject);
+    //console.log(subject);
     if(subject.subjects != null){
         for (let step = 0; step < subject.subjects.length; step++) { //para cada materia seleecioanda por el usuario
             let subjectSelected = subject.subjects[step];
-            console.log("subjectSelected");
-            console.log(subjectSelected); 
+            //console.log("subjectSelected");
+            //console.log(subjectSelected); 
             lista.push(subjectSelected);
             getSubjectsBefore(subjectSelected);
             
-            console.log('Camina un paso hacia el este');
+            //console.log('Camina un paso hacia el este');
         }
     }
 
@@ -38,14 +38,14 @@ exports.createSubject = async (req,res) => {
         subject = new Subject(req.body);
         
         const allSubjects = await Subject.find();
-        console.log("TODAS LAS MATERIAS:")
-        console.log(allSubjects)
-        console.log("SEGUNDA MATERIA ")
-        console.log(allSubjects[2])
+        //console.log("TODAS LAS MATERIAS:")
+        //console.log(allSubjects)
+       // console.log("SEGUNDA MATERIA ")
+        //console.log(allSubjects[2])
         //la materia no puede existr
         for (let j = 0; j < allSubjects.length; j++){
             if(allSubjects[j].name == subject.name){
-                console.log("ERROR LA MATERIA YA EXISTE");
+               // console.log("ERROR LA MATERIA YA EXISTE");
                 res.status(500).send('HUbo un error');
                 return;
             }
@@ -54,8 +54,8 @@ exports.createSubject = async (req,res) => {
         for (let step = 0; step < subject.subjects.length; step++) { //para cada materia seleecioanda por el usuario
             for (let j = 0; j < allSubjects.length; j++) { //para cada materia seleecioanda por el usuario
                 if(subject.subjects[step].name == allSubjects[j].name){
-                    console.log("Materia a recursion: ");
-                    console.log( allSubjects[j]);
+                   // console.log("Materia a recursion: ");
+                   // console.log( allSubjects[j]);
                    
                     listaCompleta = (getSubjectsBefore(allSubjects[j]));
                     for (let i = 0; i < listaCompleta.length; i++){
@@ -77,8 +77,8 @@ exports.createSubject = async (req,res) => {
         //para cada materia pido todas las correlativas, si en alguna de las
         // correlativas esta la que voy a insertar, 
         //le agrega esta materia a las next de la materia a insertar.
-        console.log(" - ------------------- TODAS LAS MATERIAS CON LSO NEXT : --------------- ");
-        console.log(allSubjects);
+        //console.log(" - ------------------- TODAS LAS MATERIAS CON LSO NEXT : --------------- ");
+        //console.log(allSubjects);
 
        
 
@@ -96,7 +96,7 @@ exports.createSubject = async (req,res) => {
 }
 
 exports.getSubjects = async (req,res) => {
-    console.log(req.body);
+    //console.log(req.body);
     try{
         const subjects = await Subject.find();
         res.json(subjects)

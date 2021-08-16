@@ -10,6 +10,8 @@
                           <tr>
                             <th scope="col">Materia</th>
                             <th scope="col">Año</th>
+                            <th scope="col">Cuatrimestre</th>
+
                             <th scope="col"></th>
                           </tr>
                         </thead>
@@ -17,8 +19,9 @@
                           <tr *ngFor="let subject of listSubjects">
                             <td>{{ subject.name }}</td>
                             <td>{{ subject.year }}</td>
+                            <td>{{ subject.quarter }}º </td>
                             <td>
-                                <!-- <i [routerLink]="['/editar-producto', producto._id]" class="fas fa-edit text-primary"></i> -->
+                                <i [routerLink]="['/editar-producto', subject._id]" class="fas fa-edit text-primary"></i>
                                 <i (click)="eliminarProducto(subject._id)" class="fas fa-trash text-danger"></i>
                             </td>
                           </tr>

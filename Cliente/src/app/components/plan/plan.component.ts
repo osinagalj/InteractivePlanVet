@@ -15,35 +15,27 @@ export class PlanComponent implements OnInit {
 
   listSubjectsDB: Subject[] = [];
 
-  
+  years : Number = 0;
 
-  constructor(private _subjectService: SubjectService) {
-
-
-   }
-
-  
-  
-  
-  
+  constructor(private _subjectService: SubjectService) {}
 
   ngOnInit(): void {
     this.setSubjects();
     this.obtenerProductos();
   }
 
-
-
   obtenerProductos() {
-    
-    console.log("subjects = ");
     this._subjectService.getProductos().subscribe(data => {
-      console.log("data = ");
-      console.log(data);
       this.listSubjectsDB = data;
-      console.log("dataDB = ");
-      console.log(this.listSubjectsDB );
-    //  this.setQueques();
+      //Total of years
+      var two : number = 2;
+      var one : number = 1;
+      for (var subject of this.listSubjectsDB) {
+          if(subject.year > this.years){
+            this.years = subject.year * two + 2; //1 es el ingreso y 2 por los cuatrimestres
+          }
+      }
+      //this.years = this.years + Number(1);
     }, error => {
       console.log(error);
     })
@@ -56,85 +48,36 @@ export class PlanComponent implements OnInit {
         form.style.background = '#389FB1';  //color original
       }
     }
-
-/* 
-    let form = document.getElementById(subject.name)
-    if(form != null){
-      form.style.background = '#ffffff';
-    } */
   }
   
   changeColor(subject:any) {
-    console.log("subject");
-    console.log(subject);
-    
+
     let form = document.getElementById(subject.name)
     if(form != null){
-      form.style.background = '#6b174e';
-      
-      console.log('SUBJECT QUE CLICKEO = ' );
-      console.log(subject);
-      
-      for (var val of subject.subjectsNext) {
-        
-        this.changeColorRec(val);
-      }
-      
 
+      //Selected subject 
+      form.style.background = '#7adaeb';
+
+      //Seteo en verde las materias anteriores
       subject.subjects.forEach(function (value:any) {
-        console.log("LISTA DE DEPENDENCIAS ROJAS");
         let form = document.getElementById(value.name)
         if(form != null){
-          form.style.background = '#c521ce'; //anteriores
+          form.style.background = '#03ad11'; //anteriores
         }
       });
 
-    //para todas las materias, la pinto de rojo si la que sleeccione esta en la lista de depednencias
+      //para todas las materias, la pinto de rojo si la que sleeccione esta en la lista de depednencias
       for (var varr of this.listSubjectsDB) { 
           for(var correlativa of varr.subjects){ //para cada materia correlativa
               if(correlativa.name == subject.name){
                 let form = document.getElementById(varr.name)
                 if(form != null){
-                  form.style.background = '#dc3545'; //anteriores
+                  form.style.background = 'red'; //anteriores
                 }
               }
           }
-        this.changeColorRec(val);
       }
-
     }
-    
-
-  
-  }
-  changeColorRec(subject:any){
-    console.log('primer cambio de color' );
-    if(subject != null){
-      if(subject.length > 1){
-        console.log('Subject que me vienen' );
-        console.log(subject);
-         for (var value of subject) {
-          this.changeColorRec(value.subjectsNext); 
-          let form = document.getElementById(subject.name)
-          if(form != null){
-            form.style.background = '#bb1313';  //posteriores
-          }
-        }
-      }else{
-        console.log('color unico' );
-
-        let form = document.getElementById(subject.name)
-        if(form != null){
-          form.style.background = '#389FB1'; 
-/*           for(var sub of this.listSubjectsDB){
-            if(sub.name == )
-          } */
-          this.changeColorRec(subject.subjectsNext); 
-        }
-      }
-  
-    }
-
 
   }
 

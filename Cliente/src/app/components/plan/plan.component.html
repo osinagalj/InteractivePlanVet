@@ -1,9 +1,12 @@
-
-<ng-container *ngFor="let i of [].constructor(5); let j= index"> <!-- repito 5 veces los niveles de materias -->
+<div class="header mb-5">
+  <img src="/assets/images/logoVete.jpeg" alt="Logo Veterinaria" height="80px" width="auto">
+  <label class="text-center" for="">Plan interactivo Medicina Veterinaria UNICEN</label>
+</div>
+<ng-container *ngFor="let i of [].constructor(years); let j= index"> <!-- repito 5 veces los niveles de materias -->
   <div class="d-flex justify-content-center">
     <div *ngFor="let subject of listSubjectsDB ; " >   
-
-      <div *ngIf="subject.year == (j + 1)">
+      
+      <div *ngIf="subject.year * subject.quarter == (j)">
         <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
           <div>
                   {{ subject.name }}

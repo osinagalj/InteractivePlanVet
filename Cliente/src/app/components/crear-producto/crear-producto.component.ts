@@ -12,6 +12,7 @@ import { Subject } from 'src/app/models/subject';
 })
 export class CrearProductoComponent implements OnInit {
   productoForm: FormGroup;
+
   titulo = 'Crear Materia';
   id: string | null;
 
@@ -22,13 +23,21 @@ export class CrearProductoComponent implements OnInit {
 
   //this.subjects1.push({id:i1,value:val.name,isSelected:false});
 
-
+  public radioData: any; 
 
 
   oneAtATime : Boolean = true;
   isCustomHeaderOpen: Boolean =  false;
   isFirstOpen: Boolean = true;
   isFirstDisabled:Boolean = false;
+
+  public SUBJECT: Subject = {
+    name: "All",
+    year: 1,
+    subjects: null,
+    quarter: 1
+    
+  }
 
   groups = [
     {
@@ -49,32 +58,37 @@ export class CrearProductoComponent implements OnInit {
   }
 
 
+  subjectWIthCheckBox = [
+    {id:1,value:'All',isSelected:false,subject:this.SUBJECT}
+ ];
+
 
 
   subjects1 = [
-    {id:1,value:'All',isSelected:false}
+    {id:1,value:'All',isSelected:false,quarter:1}
  ];
 
  subjects2 = [
-  {id:1,value:'All',isSelected:false}
+  {id:1,value:'All',isSelected:false,quarter:1}
 ];
 
 subjects3 = [
-  {id:1,value:'All',isSelected:false}
+  {id:1,value:'All',isSelected:false,quarter:1}
 ];
 subjects4 = [
-  {id:1,value:'All',isSelected:false}
+  {id:1,value:'All',isSelected:false,quarter:1}
 ];
 
 subjects5 = [
-  {id:1,value:'All',isSelected:false}
+  {id:1,value:'All',isSelected:false,quarter:1}
 ];
 
-selectedData = [{ id: 1, header:"1º",data:this.subjects1},
-                { id: 2, header:"2º",data:this.subjects2},
-                { id: 3, header:"3º",data:this.subjects3},
-                { id: 4, header:"4º",data:this.subjects4},
-                { id: 5, header:"5º",data:this.subjects5}
+tamanio : Number = 2;
+selectedData = [{ id: 1, header:"1º año",data:this.subjectWIthCheckBox},
+                { id: 2, header:"2º año",data:this.subjectWIthCheckBox},
+/*                 { id: 3, header:"3º año",data:this.subjects3},
+                { id: 4, header:"4º año",data:this.subjects4}, */
+                { id: 5, header:"5º año",data:this.subjectWIthCheckBox}
 ];
 
   constructor(private fb: FormBuilder,
@@ -85,12 +99,14 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
     this.productoForm = this.fb.group({
       subjectName: ['', Validators.required],
       subjectYear: ['', Validators.required],
-
+      radioYear: ['Primer cuatrimestre', Validators.required],
+      
     })
+
     this.id = this.aRouter.snapshot.paramMap.get('id');
 
     this.masterSelected = false;
-
+    
     //this.getCheckedItemList();
 
   }
@@ -99,27 +115,28 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
 
 
   ngOnInit(): void {
-    this.esEditar();
     this.obtenerProductos();
+    this.esEditar();
   }
   listSubjectsDB: Subject[] = [];
   listSubjects: Subject[] = [];
   listSubjects2: Subject[] = [];
   listSubjects3: Subject[] = [];
 
-
+  test : Number = 1;
+  test2: Number = 2;
 
   obtenerProductos() {
     
 
 
-    console.log("subjects = ");
+    //("subjects = ");
     this._subjectService.getProductos().subscribe(data => {
-      console.log("data = ");
-      console.log(data);
+      //console.log("data = ");
+    //  console.log(data);
       this.listSubjectsDB = data;
-      console.log("dataDB = ");
-      console.log(this.listSubjectsDB );
+    //  console.log("dataDB = ");
+     // console.log(this.listSubjectsDB );
       this.setQueques();
       
     }, error => {
@@ -134,31 +151,39 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
     let i3 = 2;
     let i4 = 2;
     let i5 = 2;
-    console.log ('variables db queque');
+    //console.log ('variables db queque');
 
 
     for (var val of this.listSubjectsDB) {
       console.log (val);
-      if(val.year == 1){
-        this.subjects1.push({id:i1,value:val.name,isSelected:false});
+
+
+      this.subjectWIthCheckBox.push({id:i1,value:val.name,isSelected:false,subject:val});
+
+/*       if(val.year == 1 ){
+        this.subjects1.push({id:i1,value:val.name,isSelected:false,quarter:val.quarter});
+        i1 = i1+ 1;
+      }
+      if(val.year == 0){
+        this.subjects1.push({id:i1,value:val.name,isSelected:false,quarter:val.quarter});
         i1 = i1+ 1;
       }
       if(val.year == 2){
-        this.subjects2.push({id:i2,value:val.name,isSelected:false});
+        this.subjects2.push({id:i2,value:val.name,isSelected:false,quarter:val.quarter});
         i1 = i2+ 1;
       }
       if(val.year == 3){
-        this.subjects3.push({id:i3,value:val.name,isSelected:false});
+        this.subjects3.push({id:i3,value:val.name,isSelected:false,quarter:val.quarter});
         i3 = i3+ 1;
       }
       if(val.year == 4){
-        this.subjects4.push({id:i4,value:val.name,isSelected:false});
+        this.subjects4.push({id:i4,value:val.name,isSelected:false,quarter:val.quarter});
         i4 = i4+ 1;
       }
       if(val.year == 5){
-        this.subjects5.push({id:i5,value:val.name,isSelected:false});
+        this.subjects5.push({id:i5,value:val.name,isSelected:false,quarter:val.quarter});
         i5 = i5+ 1;
-      }
+      } */
     }
 
   }
@@ -177,7 +202,8 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
         const SUBJECT: Subject = {
           name: val.value,
           year: 1,
-          subjects: null
+          subjects: null,
+          quarter:1
         }
         lista.push(SUBJECT);
       }
@@ -189,19 +215,34 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
     let subjectSeleccionadas: Subject[] = [];
     let subjectSeleccionadas2: Subject[] = [];
 
-    console.log(this.subjects1);
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects1);  
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects2);
+
+    console.log("----------EL radioData");
+    console.log(this.productoForm.get('radioYear')?.value);
+    //console.log(this.subjects1);
+
+
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjectWIthCheckBox);  
+/*     this.addSubjectsToSend(subjectSeleccionadas,this.subjects2);
     this.addSubjectsToSend(subjectSeleccionadas,this.subjects3);
     this.addSubjectsToSend(subjectSeleccionadas,this.subjects4);
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects5);
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjects5); */
 
 
+    let year = this.productoForm.get('subjectYear')?.value;
+    let quarter;
+    if(this.productoForm.get('radioYear')?.value == "Segundo cuatrimestre"){
+      
+      quarter = 2;
+    }else{
+      quarter = 1;
+    }
 
+    //let year = 
     const SUBJECT: Subject = {
       name: this.productoForm.get('subjectName')?.value,
-      year: this.productoForm.get('subjectYear')?.value,
-      subjects: subjectSeleccionadas
+      year: year,
+      subjects: subjectSeleccionadas,
+      quarter: quarter
       
     }
 
@@ -209,7 +250,7 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
     console.log(SUBJECT);
     this._subjectService.guardarProducto(SUBJECT).subscribe(data => {
       this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
-      //this.router.navigate(['/']);
+      this.router.navigate(['/crear-producto']);
     }, error => {
       this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
       console.log(error);
@@ -222,17 +263,24 @@ selectedData = [{ id: 1, header:"1º",data:this.subjects1},
 
   esEditar() {
 
-/*     if(this.id !== null) {
+    if(this.id !== null) {
       this.titulo = 'Editar producto';
-      this._productoService.obtenerProducto(this.id).subscribe(data => {
+      this._subjectService.obtenerProducto(this.id).subscribe(data => {
+        let quarter;
+        if(data.quarter == 1){
+          quarter = "Primer cuatrimestre";
+        }else{
+          quarter = "Segundo cuatrimestre";
+        }
         this.productoForm.setValue({
-          producto: data.nombre,
-          categoria: data.categoria,
-          ubicacion: data.ubicacion,
-          precio: data.precio,
+
+
+          subjectName: data.name,
+          subjectYear: data.year,
+          radioYear: quarter
         })
       })
-    } */
+    }
   }
 
 }
