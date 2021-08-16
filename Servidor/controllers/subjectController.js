@@ -6,8 +6,8 @@ const Subject = require("../models/Subject");
 function getSubjectsBefore(subject) {
 
     let lista = [];
-    console.log("-------------------------------------------------");
-    console.log("MATERIA ELEGIDA POR EL USUARIO");
+   // console.log("-------------------------------------------------");
+   // console.log("MATERIA ELEGIDA POR EL USUARIO");
     //console.log(subject);
     if(subject.subjects != null){
         for (let step = 0; step < subject.subjects.length; step++) { //para cada materia seleecioanda por el usuario
@@ -28,7 +28,7 @@ function getSubjectsBefore(subject) {
 
 
 exports.createSubject = async (req,res) => {
-    console.log("ESTA GUARDANDO EN EL BACKEND");
+    console.log("ESTA GUARDANDO EN EL BACKEND...");
     //console.log(req.body);
 
     try{
@@ -51,21 +51,31 @@ exports.createSubject = async (req,res) => {
             }
         }
         let listaCompleta = [];
+        let listaACargar = [];
         for (let step = 0; step < subject.subjects.length; step++) { //para cada materia seleecioanda por el usuario
-            for (let j = 0; j < allSubjects.length; j++) { //para cada materia seleecioanda por el usuario
-                if(subject.subjects[step].name == allSubjects[j].name){
+            for (let j = 0; j < allSubjects.length; j++) { //para cada materia existente
+                if(subject.subjects[step].name == allSubjects[j].name){ //si la materia uqe seleeciono es la misma
                    // console.log("Materia a recursion: ");
                    // console.log( allSubjects[j]);
-                   
+                   console.log("procesando..");
                     listaCompleta = (getSubjectsBefore(allSubjects[j]));
                     for (let i = 0; i < listaCompleta.length; i++){
-                        subject.subjects.push(listaCompleta[i]); //agrega la materia previa
+                        listaACargar.push(listaCompleta[i]);
+                        //subject.subjects.push(listaCompleta[i]); //agrega la materia previa
                     }
-                    console.log("LISTA CON TODAS LAS CORRELATIVIDADES");
-                    console.log(listaCompleta);
+                    //console.log("LISTA CON TODAS LAS CORRELATIVIDADES");
+                    //console.log(listaCompleta);
                 }
             }
         }
+
+        for (let i = 0; i < listaACargar.length; i++){
+            if(!subject.subjects.includes(listaACargar[i])){
+                subject.subjects.push(listaACargar[i]); //agrega la materia previa
+            } //includes
+            
+        }
+        console.log("cargando a db..")
 /* 
         for(let h = 0; h < allSubjects.length; h++){//le agrego el next a la otra
             if(allSubjects[h].name == listaCompleta[i].name){
@@ -87,6 +97,7 @@ exports.createSubject = async (req,res) => {
         //console.log(listaDeCorrelativas);
         await subject.save();
         res.send(subject);
+        console.log("Termino de guaradar.")
 
     }catch(error){
         console.log(error);
@@ -111,9 +122,10 @@ exports.getSubjects = async (req,res) => {
 
 
 exports.updateSubject = async (req,res) => {
+    console.log("ESTA UPDATEANDO ------------");
     console.log(req.body);
     try{
-        const { name, year, subjects, subjectsNext} = req.body;
+        const { name, year, subjects, quarter} = req.body;
         let subject = await Subject.findById(req.params.id);
 
         if(!subject){
@@ -123,7 +135,7 @@ exports.updateSubject = async (req,res) => {
         subject.name = name;
         subject.year = year;
         subject.subjects = subjects;
-        subject.subjectsNext = subjectsNext;
+        subject.quarter = quarter;
 
         subject = await Subject.findOneAndUpdate({ _id: req.params.id}, subject, {new: true});
 

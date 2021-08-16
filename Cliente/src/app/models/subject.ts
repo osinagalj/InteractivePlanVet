@@ -1,5 +1,5 @@
 export class Subject {
-    _id?: number;
+    _id?: Number;
     name: string;
     year: number;
     subjects: any;

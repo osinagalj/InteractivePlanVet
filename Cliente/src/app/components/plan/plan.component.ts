@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'src/app/models/subject';
 import { SubjectService } from 'src/app/services/subject.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as $ from 'jquery'; // I faced issue in using jquery's popover
 @Component({
   selector: 'app-plan',
@@ -17,7 +18,19 @@ export class PlanComponent implements OnInit {
 
   years : Number = 0;
 
-  constructor(private _subjectService: SubjectService) {}
+
+  productoForm: FormGroup;
+  tamanio : Number = 0;
+  selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckBox}
+  
+
+
+
+  constructor(private _subjectService: SubjectService,private fb: FormBuilder,) {
+    this.productoForm = this.fb.group({
+      radioYear: ['1', Validators.required],
+    })
+  }
 
   ngOnInit(): void {
     this.setSubjects();
@@ -30,11 +43,14 @@ export class PlanComponent implements OnInit {
       //Total of years
       var two : number = 2;
       var one : number = 1;
+      var onee : number = 1;
       for (var subject of this.listSubjectsDB) {
           if(subject.year > this.years){
-            this.years = subject.year * two + 2; //1 es el ingreso y 2 por los cuatrimestres
+            
           }
       }
+     // this.years = this.years * two + one; //1 es el ingreso y 2 por los cuatrimestres
+      this.years = + 7;
       //this.years = this.years + Number(1);
     }, error => {
       console.log(error);

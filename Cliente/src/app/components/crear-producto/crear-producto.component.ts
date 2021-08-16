@@ -58,38 +58,11 @@ export class CrearProductoComponent implements OnInit {
   }
 
 
-  subjectWIthCheckBox = [
-    {id:1,value:'All',isSelected:false,subject:this.SUBJECT}
- ];
+  subjectWIthCheckBox : any = [{id:1,value:'All',isSelected:false,subject:this.SUBJECT}];
+ /*  */
 
-
-
-  subjects1 = [
-    {id:1,value:'All',isSelected:false,quarter:1}
- ];
-
- subjects2 = [
-  {id:1,value:'All',isSelected:false,quarter:1}
-];
-
-subjects3 = [
-  {id:1,value:'All',isSelected:false,quarter:1}
-];
-subjects4 = [
-  {id:1,value:'All',isSelected:false,quarter:1}
-];
-
-subjects5 = [
-  {id:1,value:'All',isSelected:false,quarter:1}
-];
-
-tamanio : Number = 2;
-selectedData = [{ id: 1, header:"1º año",data:this.subjectWIthCheckBox},
-                { id: 2, header:"2º año",data:this.subjectWIthCheckBox},
-/*                 { id: 3, header:"3º año",data:this.subjects3},
-                { id: 4, header:"4º año",data:this.subjects4}, */
-                { id: 5, header:"5º año",data:this.subjectWIthCheckBox}
-];
+tamanio : Number = 0;
+selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckBox}
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -147,44 +120,22 @@ selectedData = [{ id: 1, header:"1º año",data:this.subjectWIthCheckBox},
   setQueques(){
     
     let i1 = 2;
-    let i2 = 2;
-    let i3 = 2;
-    let i4 = 2;
-    let i5 = 2;
-    //console.log ('variables db queque');
-
-
+    let size = 0;
     for (var val of this.listSubjectsDB) {
       console.log (val);
-
-
+      if(val.year > size){
+        size =val.year ;
+      }
       this.subjectWIthCheckBox.push({id:i1,value:val.name,isSelected:false,subject:val});
-
-/*       if(val.year == 1 ){
-        this.subjects1.push({id:i1,value:val.name,isSelected:false,quarter:val.quarter});
-        i1 = i1+ 1;
-      }
-      if(val.year == 0){
-        this.subjects1.push({id:i1,value:val.name,isSelected:false,quarter:val.quarter});
-        i1 = i1+ 1;
-      }
-      if(val.year == 2){
-        this.subjects2.push({id:i2,value:val.name,isSelected:false,quarter:val.quarter});
-        i1 = i2+ 1;
-      }
-      if(val.year == 3){
-        this.subjects3.push({id:i3,value:val.name,isSelected:false,quarter:val.quarter});
-        i3 = i3+ 1;
-      }
-      if(val.year == 4){
-        this.subjects4.push({id:i4,value:val.name,isSelected:false,quarter:val.quarter});
-        i4 = i4+ 1;
-      }
-      if(val.year == 5){
-        this.subjects5.push({id:i5,value:val.name,isSelected:false,quarter:val.quarter});
-        i5 = i5+ 1;
-      } */
     }
+    this.selectedData.pop;
+
+    for (var i = 1; i < size + 1; i++) {
+      this.selectedData.push({ id: 1, header: i +"º año",data:this.subjectWIthCheckBox});
+    }
+    console.log("tamanioo : " + size);
+    
+      
 
   }
 
@@ -248,14 +199,29 @@ selectedData = [{ id: 1, header:"1º año",data:this.subjectWIthCheckBox},
 
     console.log("MATERIA A AGREGAR");
     console.log(SUBJECT);
-    this._subjectService.guardarProducto(SUBJECT).subscribe(data => {
-      this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
-      this.router.navigate(['/crear-producto']);
-    }, error => {
-      this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
-      console.log(error);
-      this.productoForm.reset();
-    }) 
+
+    if(this.id !== null){
+      var num = new Number(this.id); 
+      //SUBJECT._id = num;
+      this._subjectService.updateProducto(SUBJECT,this.id).subscribe(data => {
+        this.toastr.success('El producto fue actualizado con exito!', 'Producto Registrado!');
+        this.router.navigate(['/crear-producto']);
+      }, error => {
+        this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
+        console.log(error);
+        this.productoForm.reset();
+      }) 
+    }else{
+      this._subjectService.guardarProducto(SUBJECT).subscribe(data => {
+        this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
+        this.router.navigate(['/crear-producto']);
+      }, error => {
+        this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
+        console.log(error);
+        this.productoForm.reset();
+      }) 
+    }
+
 
   
   }
@@ -279,6 +245,34 @@ selectedData = [{ id: 1, header:"1º año",data:this.subjectWIthCheckBox},
           subjectYear: data.year,
           radioYear: quarter
         })
+
+        console.log("QUE MIERDA HAY dataa");
+        console.log(data.subjects );
+
+        console.log("QUE MIERDA HAY ya caragada");
+        console.log(this.subjectWIthCheckBox );
+
+        console.log("FORRRRRRRRRRRRRRRR - ---------------");
+
+        for (var i = 0; i < data.subjects.length; i++) {
+          console.log(data.subjects[i]);
+          for (var j = 0; j < this.subjectWIthCheckBox.length; j++) {
+            
+            if(data.subjects[i].name == this.subjectWIthCheckBox[j].subject.name){
+              this.subjectWIthCheckBox[j].isSelected = true;
+            }
+          }
+        }
+
+        console.log("YA SEETIE LAS CHECK");
+        console.log(this.subjectWIthCheckBox );
+
+/*         for(var subject2 in data.subjects){
+          for(var sb in this.subjectWIthCheckBox){
+            console.log(subject2);
+          }
+        } */
+
       })
     }
   }

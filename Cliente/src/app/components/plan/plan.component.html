@@ -2,11 +2,49 @@
   <img src="/assets/images/logoVete.jpeg" alt="Logo Veterinaria" height="80px" width="auto">
   <label class="text-center" for="">Plan interactivo Medicina Veterinaria UNICEN</label>
 </div>
+
+<form class="mt-3 text-rigth" [formGroup]="productoForm" >
+  <div class="mb-3" style="text-align: right">
+    <input type="radio" class="btn-check"  formControlName="radioYear" value="1" id="success-outlined" autocomplete="off" checked>
+    <label class="btn btn-outline-success" for="success-outlined">Cursadas -> Cursadas</label>
+  
+    <input type="radio" class="btn-check"  formControlName="radioYear" value="2" id="success-outlined2" autocomplete="off" >
+    <label class="btn btn-outline-success" for="success-outlined2">Finales -> Cursadas</label>
+  
+    <input type="radio" class="btn-check"  formControlName="radioYear" value="3" id="success-outlined3" autocomplete="off" >
+    <label class="btn btn-outline-success" for="success-outlined3">Finales -> Finales</label>
+  </div>
+
+</form>
+
+
+
 <ng-container *ngFor="let i of [].constructor(years); let j= index"> <!-- repito 5 veces los niveles de materias -->
+<!--   <label>Año {{j}}º  </label>
+  <label>Primer Cuatrimestre</label> -->
   <div class="d-flex justify-content-center">
+   
     <div *ngFor="let subject of listSubjectsDB ; " >   
       
-      <div *ngIf="subject.year * subject.quarter == (j)">
+      
+      <div *ngIf="subject.year == (j) && subject.quarter == 1 ">
+        <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
+          <div>
+                  {{ subject.name }}
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+<!-- 
+  <label>Segundo Cuatrimestre</label> -->
+  <div class="d-flex justify-content-center">
+    
+   
+    <div *ngFor="let subject of listSubjectsDB ; " >   
+      
+     
+      <div *ngIf="subject.year == (j) && subject.quarter == 2">
         <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
           <div>
                   {{ subject.name }}
