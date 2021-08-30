@@ -33,7 +33,6 @@ export class PlanComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setSubjects();
     this.obtenerProductos();
   }
 
@@ -66,16 +65,10 @@ export class PlanComponent implements OnInit {
     }
   }
   
-  changeColor(subject:any) {
 
-    let form = document.getElementById(subject.name)
-    if(form != null){
-
-      //Selected subject 
-      form.style.background = '#7adaeb';
-
+  changeColorList(list:any,subjectPick:String){
       //Seteo en verde las materias anteriores
-      subject.subjects.forEach(function (value:any) {
+      list.forEach(function (value:any) {
         let form = document.getElementById(value.name)
         if(form != null){
           form.style.background = '#03ad11'; //anteriores
@@ -85,7 +78,7 @@ export class PlanComponent implements OnInit {
       //para todas las materias, la pinto de rojo si la que sleeccione esta en la lista de depednencias
       for (var varr of this.listSubjectsDB) { 
           for(var correlativa of varr.subjects){ //para cada materia correlativa
-              if(correlativa.name == subject.name){
+              if(correlativa.name == subjectPick){
                 let form = document.getElementById(varr.name)
                 if(form != null){
                   form.style.background = 'red'; //anteriores
@@ -93,90 +86,34 @@ export class PlanComponent implements OnInit {
               }
           }
       }
-    }
-
   }
 
+  changeColor(subject:any) {
+
+    //alert(this.productoForm.get('radioYear')?.value);
 
 
+    //alert('ENTRO EN CAMBIANDO COLOR');
+    let form = document.getElementById(subject.name)
+    if(form != null){
 
-  setSubjects() {
-    /*
-    const SUBJECT: Subject = {
-      name: 'Anatomia I',
-      year: '2',
-      subjects: null,
-      subjectsNext: null
+      //Selected subject 
+      form.style.background = '#7adaeb';
+
+      if(this.productoForm.get('radioYear')?.value == "1"){
+        this.changeColorList(subject.subjects,subject.name);
+      }
+      if(this.productoForm.get('radioYear')?.value == "2"){
+        this.changeColorList(subject.subjects2,subject.name);
+      }
+      if(this.productoForm.get('radioYear')?.value == "3"){
+        this.changeColorList(subject.subjects3,subject.name);
+      }
+      
+
     }
+  
 
-    this.listSubjectsNext.push(SUBJECT);
-
-    const SUBJECT2: Subject = {
-      name: 'Quimica',
-      year: '2',
-      subjects: null,
-      subjectsNext: this.listSubjectsNext
-    }
-    const SUBJECT3: Subject = {
-      name: 'Biologia',
-      year: '2',
-      subjects: null,
-      subjectsNext: this.listSubjectsNext
-    }
-
-    this.listSubjects.push(SUBJECT);
-    this.listSubjects.push(SUBJECT2);
-    this.listSubjects.push(SUBJECT3);
-
-    //2do
-    const SUBJECT4: Subject = {
-      name: 'Anatomia 2',
-      year: '3',
-      subjects: null,
-      subjectsNext: this.listSubjectsNext
-    }
-
-   //3ero
-   const SUBJECT6: Subject = {
-    name: 'Anatomia 9',
-    year: '3',
-    subjects: null,
-    subjectsNext: this.listSubjectsNext
-  }
-
-
-
-    this.listSubjects2.push(SUBJECT4);
-    
-
-    this.listSubjectsAntes.push(SUBJECT6);
-
-    const SUBJECT5: Subject = {
-      name: 'MATERIA 5',
-      year: '3',
-      subjects: this.listSubjectsAntes,
-      subjectsNext: this.listSubjectsNext
-    }
-    this.listSubjects2.push(SUBJECT5);
-
-
-    const SUBJECT7: Subject = {
-      name: 'MATERIA 10',
-      year: '3',
-      subjects: null,
-      subjectsNext: this.listSubjectsNext
-    }
-    const SUBJECT8: Subject = {
-      name: 'MATERIA 11',
-      year: '3',
-      subjects: null,
-      subjectsNext: this.listSubjectsNext
-    }
-
-    this.listSubjects3.push(SUBJECT6);
-    this.listSubjects3.push(SUBJECT7);
-    this.listSubjects3.push(SUBJECT8);
-*/
   }
 
 
@@ -185,27 +122,5 @@ export class PlanComponent implements OnInit {
 }
 
 
-
-/*   setQueques(){
-    
-    console.log ('variables db queque');
-    for (var val of this.listSubjectsDB) {
-      console.log (val);
-      if(val.year == 1){
-        this.listSubjects.push(val);
-      }
-      if(val.year == '2'){
-        this.listSubjects2.push(val);
-      }
-      if(val.year == '3'){
-        this.listSubjects3.push(val);
-      }
-      if(val.year == '4'){
-        this.listSubjects4.push(val);
-      }
-      if(val.year == '5'){
-        this.listSubjects5.push(val);
-      }
-    } */
 
 //  }

@@ -30,11 +30,18 @@ export class CrearProductoComponent implements OnInit {
   isCustomHeaderOpen: Boolean =  false;
   isFirstOpen: Boolean = true;
   isFirstDisabled:Boolean = false;
+  i : Number = 7;
+
+  odd : Number = 8;
+  even : Number = 9;
 
   public SUBJECT: Subject = {
     name: "All",
+    order: 0,
     year: 1,
     subjects: null,
+    subjects2: null,
+    subjects3: null,
     quarter: 1
     
   }
@@ -52,17 +59,25 @@ export class CrearProductoComponent implements OnInit {
 
   items = ['Item 1', 'Item 2', 'Item 3'];
 
-  addItem(): void {
+  addItem(): void { 
     var newItemNo = this.items.length + 1;
     this.items.push('Item ' + newItemNo);
   }
 
-
+  
   subjectWIthCheckBox : any = [{id:1,value:'All',isSelected:false,subject:this.SUBJECT}];
+  subjectWIthCheckBox2 : any = [{id:1,value:'All',isSelected:false,subject:this.SUBJECT}];
+  subjectWIthCheckBox3 : any = [{id:1,value:'All',isSelected:false,subject:this.SUBJECT}];
+
+  subjectWIthCheckBoxFinalesFinales : any = [{id:1,value:'All',isSelected:false,subject:this.SUBJECT}];
  /*  */
 
 tamanio : Number = 0;
 selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckBox}
+
+selectedData2: any = []; 
+
+selectedData3: any = []; 
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -73,6 +88,7 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
       subjectName: ['', Validators.required],
       subjectYear: ['', Validators.required],
       radioYear: ['Primer cuatrimestre', Validators.required],
+      order : ['', Validators.required],
       
     })
 
@@ -126,13 +142,21 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
       if(val.year > size){
         size =val.year ;
       }
-      this.subjectWIthCheckBox.push({id:i1,value:val.name,isSelected:false,subject:val});
-    }
-    this.selectedData.pop;
+      this.subjectWIthCheckBox.push({ id:i1,value:val.name,isSelected:false,subject:val});
+      this.subjectWIthCheckBox2.push({id:i1,value:val.name,isSelected:false,subject:val});
+      this.subjectWIthCheckBox3.push({id:i1,value:val.name,isSelected:false,subject:val});
 
-    for (var i = 1; i < size + 1; i++) {
-      this.selectedData.push({ id: 1, header: i +"º año",data:this.subjectWIthCheckBox});
     }
+    //this.subjectWIthCheckBox2 =this.subjectWIthCheckBox;
+    //this.subjectWIthCheckBox3 =this.subjectWIthCheckBox;
+    
+    for (var i = 0; i < size ; i++) {
+      this.selectedData.push({ id: 0, header: i +"º año",data:this.subjectWIthCheckBox});
+
+      
+    }
+
+
     console.log("tamanioo : " + size);
     
       
@@ -140,6 +164,8 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
   }
 
   setCheck(e:any) {
+   
+
     if(e.isSelected)
       e.isSelected = false;
     else{
@@ -152,8 +178,11 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
       if(val.isSelected == true){
         const SUBJECT: Subject = {
           name: val.value,
+          order: 0,
           year: 1,
           subjects: null,
+          subjects2: null,
+          subjects3: null,
           quarter:1
         }
         lista.push(SUBJECT);
@@ -165,6 +194,7 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
 
     let subjectSeleccionadas: Subject[] = [];
     let subjectSeleccionadas2: Subject[] = [];
+    let subjectSeleccionadas3: Subject[] = [];
 
 
     console.log("----------EL radioData");
@@ -172,11 +202,9 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
     //console.log(this.subjects1);
 
 
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjectWIthCheckBox);  
-/*     this.addSubjectsToSend(subjectSeleccionadas,this.subjects2);
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects3);
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects4);
-    this.addSubjectsToSend(subjectSeleccionadas,this.subjects5); */
+    this.addSubjectsToSend(subjectSeleccionadas,this.subjectWIthCheckBox); 
+    this.addSubjectsToSend(subjectSeleccionadas2,this.subjectWIthCheckBox2); 
+    this.addSubjectsToSend(subjectSeleccionadas3,this.subjectWIthCheckBox3);  
 
 
     let year = this.productoForm.get('subjectYear')?.value;
@@ -191,8 +219,11 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
     //let year = 
     const SUBJECT: Subject = {
       name: this.productoForm.get('subjectName')?.value,
+      order: this.productoForm.get('order')?.value,
       year: year,
       subjects: subjectSeleccionadas,
+      subjects2: subjectSeleccionadas2,
+      subjects3: subjectSeleccionadas3,
       quarter: quarter
       
     }
@@ -203,9 +234,11 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
     if(this.id !== null){
       var num = new Number(this.id); 
       //SUBJECT._id = num;
+      console.log("NUMERO DE ID AL EDITAR");
+      console.log(this.id);
       this._subjectService.updateProducto(SUBJECT,this.id).subscribe(data => {
         this.toastr.success('El producto fue actualizado con exito!', 'Producto Registrado!');
-        this.router.navigate(['/crear-producto']);
+        this.router.navigate(['/subjects']);
       }, error => {
         this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
         console.log(error);
@@ -214,7 +247,7 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
     }else{
       this._subjectService.guardarProducto(SUBJECT).subscribe(data => {
         this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
-        this.router.navigate(['/crear-producto']);
+        //this.router.navigate(['/subjects']);
       }, error => {
         this.toastr.error('El producto no se ha podido registrar', 'Producto NO Registrado!');
         console.log(error);
@@ -229,8 +262,9 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
 
   esEditar() {
 
+    //no incluir la materia a agregar en la edicion
     if(this.id !== null) {
-      this.titulo = 'Editar producto';
+      this.titulo = 'Editar Materia';
       this._subjectService.obtenerProducto(this.id).subscribe(data => {
         let quarter;
         if(data.quarter == 1){
@@ -243,7 +277,8 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
 
           subjectName: data.name,
           subjectYear: data.year,
-          radioYear: quarter
+          radioYear: quarter,
+          order: data.order
         })
 
         console.log("QUE MIERDA HAY dataa");
@@ -260,6 +295,26 @@ selectedData: any = []; //{ id: 1, header:"1º año",data:this.subjectWIthCheckB
             
             if(data.subjects[i].name == this.subjectWIthCheckBox[j].subject.name){
               this.subjectWIthCheckBox[j].isSelected = true;
+            }
+          }
+        }
+
+        for (var i = 0; i < data.subjects2.length; i++) {
+          console.log(data.subjects2[i]);
+          for (var j = 0; j < this.subjectWIthCheckBox2.length; j++) {
+            
+            if(data.subjects2[i].name == this.subjectWIthCheckBox2[j].subject.name){
+              this.subjectWIthCheckBox2[j].isSelected = true;
+            }
+          }
+        }
+
+        for (var i = 0; i < data.subjects3.length; i++) {
+          console.log(data.subjects3[i]);
+          for (var j = 0; j < this.subjectWIthCheckBox3.length; j++) {
+            
+            if(data.subjects3[i].name == this.subjectWIthCheckBox3[j].subject.name){
+              this.subjectWIthCheckBox3[j].isSelected = true;
             }
           }
         }

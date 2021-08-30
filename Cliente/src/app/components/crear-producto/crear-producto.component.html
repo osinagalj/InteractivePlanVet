@@ -1,6 +1,7 @@
+
 <div class="container mt-5">
     <div class="row">
-        <div class="col-lg-6 offset-lg-3">
+        <div class="col-lg-12 offset-lg-12">
             <div class="card">
                 <div class="card-body text-center">
                     <span class="titulo"> {{ titulo | uppercase }}</span>
@@ -13,6 +14,14 @@
                                 <span>El nombre de la <strong>es obligatorio</strong></span>
                             </div>
                         </div>
+                        <div class="mb-3">
+                          <input type="number" formControlName="order" class="form-control form-control-lg" min="1" max="6"
+                              placeholder="Numero identificatorio">
+                          <div class="text-danger"
+                              *ngIf="productoForm.get('order')?.hasError('required') && productoForm.get('order')?.touched">
+                              <span>El ID <strong>es obligatorio</strong></span>
+                          </div>
+                      </div>
                         <div class="mb-3">
                             <input type="number" formControlName="subjectYear" class="form-control form-control-lg" min="1" max="6"
                                 placeholder="Año">
@@ -34,12 +43,15 @@
 
                         <div class="mb-3"  >
                           <div class="row">
-                            <div class="col-md-6">Materias Correlativas(Previas)</div>
+                            <div class="col-md-4">Materias Correlativas(Previas)</div>
+                            <div class="col-md-4">Materias Correlativas(medio)</div>
+                            <div class="col-md-4">Materias Correlativas(medio)</div>
                           </div>
                         </div>
 
+                        <div class="row">
                           <!-- accordion 1 -->
-                        <div class="accordion mb-5" id="accordionExample" > <!-- let i of [].constructor(years); -->
+                        <div class="accordion mb-5" id="accordionExample" style="width:33%"> <!-- let i of [].constructor(years); -->
                           <div class="accordion-item" *ngFor="let item of selectedData; let i = index" [attr.data-index]="6">
                             <h2 class="accordion-header" [id]="'heading'+i">
                               <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true" [attr.aria-controls]="'collapse'+i">
@@ -55,11 +67,11 @@
                                   <strong>1º Cuatrimestre</strong>
                                 </label>
                                 <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox;">
-                                  <div class="row" *ngIf="subject.subject.year == (i + 1) && subject.subject.quarter == 1">
+                                  <div class="row" *ngIf="subject.subject.year == (i ) && subject.subject.quarter == 1">
                                     <li class="list-group-item"> 
                                         
                                         <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
-                                        <label style="float:left">{{subject.subject.name}}</label>
+                                        <label style="float:left; font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
                                       </li>
                                   </div>
                                 </ul> 
@@ -69,11 +81,11 @@
                                   <strong>2º Cuatrimestre</strong>
                                 </label>
                                 <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox;">
-                                  <div class="row" *ngIf="subject.subject.year == (i + 1) && subject.subject.quarter == 2">
+                                  <div class="row" *ngIf="subject.subject.year == (i ) && subject.subject.quarter == 2">
                                     <li class="list-group-item"> 
                                         
                                         <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
-                                        <label style="float:left">{{subject.subject.name}}</label>
+                                        <label style="float:left;font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
                                       </li>
                                   </div>
                                 </ul> 
@@ -83,7 +95,106 @@
 
                           </div>
                         </div>
+
+                        <!-- accordion 2 -->
+                        <div class="accordion mb-5" id="accordionExample" style="width:33%" > <!-- let i of [].constructor(years); -->
+                          <div class="accordion-item" *ngFor="let item of selectedData; let i = index" [attr.data-index]="i"
+                          
+                          >
+                           
+                            <h2 class="accordion-header" [id]="'heading'+i + selectedData.length">
+                              <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i + selectedData.length" aria-expanded="true" [attr.aria-controls]="'collapse'+i + selectedData.length">
+                                {{item.header}}
+                              </button>
+                            </h2>
                             
+                            <div [id]="'collapse'+i + selectedData.length" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i + selectedData.length" data-bs-parent="#accordionExample">
+                              <div class="accordion-body mb-3 mb-2" >
+
+                                <!-- Cuatrimestre 1 -->
+                                <label class="text-left" style="display: flex;    margin-bottom: 1rem;">
+                                  <strong>1º Cuatrimestre</strong>
+                                </label>
+                                <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox2;">
+                                  <div class="row" *ngIf="subject.subject.year == (i ) && subject.subject.quarter == 1">
+                                    <li class="list-group-item"> 
+                                        
+                                        <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
+                                        <label style="float:left; font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
+                                      </li>
+                                  </div>
+                                </ul> 
+
+                                <!-- Cuatrimestre 2 -->
+                                <label class="text-left mt-3 mb-2" style="display: flex;" > 
+                                  <strong>2º Cuatrimestre</strong>
+                                </label>
+                                <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox2;">
+                                  <div class="row" *ngIf="subject.subject.year == (i ) && subject.subject.quarter == 2">
+                                    <li class="list-group-item"> 
+                                        
+                                        <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
+                                        <label style="float:left; font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
+                                      </li>
+                                  </div>
+                                </ul> 
+                                
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        
+                      <!-- accordion 3 -->
+                      <div class="accordion mb-5" id="accordionExample" style="width:33%" > <!-- let i of [].constructor(years); -->
+                        <div class="accordion-item" *ngFor="let item of selectedData; let i = index" [attr.data-index]="i">
+                          
+                          <h2 class="accordion-header" [id]="'heading'+i + selectedData.length  + 10">
+                            <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i + selectedData.length  + 10" aria-expanded="true" [attr.aria-controls]="'collapse'+i + selectedData.length  + 10">
+                              {{item.header}}
+                            </button>
+                          </h2>
+                          
+                          <div [id]="'collapse'+i + selectedData.length + 10" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }" [attr.aria-labelledby]="'heading'+i + selectedData.length  + 10" data-bs-parent="#accordionExample">
+                            <div class="accordion-body mb-3 mb-2" >
+
+                              <!-- Cuatrimestre 1 -->
+                              <label class="text-left" style="display: flex;    margin-bottom: 1rem;">
+                                <strong>1º Cuatrimestre</strong>
+                              </label>
+                              <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox3;">
+                                <div class="row" *ngIf="subject.subject.year == (i) && subject.subject.quarter == 1">
+                                  <li class="list-group-item"> 
+                                      
+                                      <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
+                                      <label style="float:left; font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
+                                    </li>
+                                </div>
+                              </ul> 
+
+                              <label class="text-left mt-3 mb-2" style="display: flex;" > 
+                                <strong>2º Cuatrimestre</strong>
+                              </label>
+                              <ul class="list-group" *ngFor="let subject of subjectWIthCheckBox3;">
+                                <div class="row" *ngIf="subject.subject.year == (i ) && subject.subject.quarter == 2">
+                                  <li class="list-group-item"> 
+                                      
+                                      <input class="form-check-input" type="checkbox"  (change)="setCheck(subject)" [checked]="subject.isSelected"  value="" aria-label="..." style="float:left; margin-right: 1rem;"> 
+                                      <label style="float:left;font-size:13px;">{{subject.subject.name}} ({{subject.subject.order}})</label>
+                                    </li>
+                                </div>
+                              </ul> 
+                              
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      </div>
+
+
                         <div class="mb-3"> <!-- [disabled]="productoForm.invalid" -->
                             <button routerLink="/" class="btn btn-secondary btn-lg float-start">VOLVER</button>
                             <button type="submit"  class="btn btn-success btn-lg float-end">ACEPTAR</button>

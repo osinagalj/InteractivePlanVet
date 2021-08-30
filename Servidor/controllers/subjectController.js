@@ -37,34 +37,28 @@ exports.createSubject = async (req,res) => {
         let subject;
         subject = new Subject(req.body);
         
-        const allSubjects = await Subject.find();
-        //console.log("TODAS LAS MATERIAS:")
-        //console.log(allSubjects)
-       // console.log("SEGUNDA MATERIA ")
-        //console.log(allSubjects[2])
-        //la materia no puede existr
+        //const allSubjects = await Subject.find();
+/*
         for (let j = 0; j < allSubjects.length; j++){
             if(allSubjects[j].name == subject.name){
-               // console.log("ERROR LA MATERIA YA EXISTE");
                 res.status(500).send('HUbo un error');
                 return;
             }
-        }
+        }*/
+        /*
         let listaCompleta = [];
         let listaACargar = [];
         for (let step = 0; step < subject.subjects.length; step++) { //para cada materia seleecioanda por el usuario
             for (let j = 0; j < allSubjects.length; j++) { //para cada materia existente
-                if(subject.subjects[step].name == allSubjects[j].name){ //si la materia uqe seleeciono es la misma
-                   // console.log("Materia a recursion: ");
-                   // console.log( allSubjects[j]);
+                if(subject.subjects[step].name == allSubjects[j].name){
+
                    console.log("procesando..");
                     listaCompleta = (getSubjectsBefore(allSubjects[j]));
                     for (let i = 0; i < listaCompleta.length; i++){
                         listaACargar.push(listaCompleta[i]);
-                        //subject.subjects.push(listaCompleta[i]); //agrega la materia previa
+
                     }
-                    //console.log("LISTA CON TODAS LAS CORRELATIVIDADES");
-                    //console.log(listaCompleta);
+
                 }
             }
         }
@@ -75,26 +69,13 @@ exports.createSubject = async (req,res) => {
             } //includes
             
         }
+*/
+
+
         console.log("cargando a db..")
-/* 
-        for(let h = 0; h < allSubjects.length; h++){//le agrego el next a la otra
-            if(allSubjects[h].name == listaCompleta[i].name){
-                allSubjects[h].subjectsNext.push(subject);
-                subjectDB = await Subject.findOneAndUpdate({ _id: allSubjects[h].id}, allSubjects[h], {new: true});
-            }
-        } */
+        console.log("subjectt en DBB ")
+        console.log(subject)
 
-        //para cada materia pido todas las correlativas, si en alguna de las
-        // correlativas esta la que voy a insertar, 
-        //le agrega esta materia a las next de la materia a insertar.
-        //console.log(" - ------------------- TODAS LAS MATERIAS CON LSO NEXT : --------------- ");
-        //console.log(allSubjects);
-
-       
-
-        //2. obtener todas las materias
-            
-        //console.log(listaDeCorrelativas);
         await subject.save();
         res.send(subject);
         console.log("Termino de guaradar.")
@@ -125,7 +106,7 @@ exports.updateSubject = async (req,res) => {
     console.log("ESTA UPDATEANDO ------------");
     console.log(req.body);
     try{
-        const { name, year, subjects, quarter} = req.body;
+        const { name,order, year, subjects,subjects2,subjects3, quarter} = req.body;
         let subject = await Subject.findById(req.params.id);
 
         if(!subject){
@@ -134,7 +115,10 @@ exports.updateSubject = async (req,res) => {
 
         subject.name = name;
         subject.year = year;
+        subject.order = order;
         subject.subjects = subjects;
+        subject.subjects2 = subjects2;
+        subject.subjects3 = subjects3;
         subject.quarter = quarter;
 
         subject = await Subject.findOneAndUpdate({ _id: req.params.id}, subject, {new: true});
