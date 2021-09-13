@@ -88,6 +88,7 @@ selectedData3: any = [];
       subjectName: ['', Validators.required],
       subjectYear: ['', Validators.required],
       radioYear: ['Primer cuatrimestre', Validators.required],
+      radioType: ['Cuatrimestral', Validators.required],
       order : ['', Validators.required],
       
     })
@@ -105,7 +106,7 @@ selectedData3: any = [];
 
   ngOnInit(): void {
     this.obtenerProductos();
-    this.esEditar();
+    
   }
   listSubjectsDB: Subject[] = [];
   listSubjects: Subject[] = [];
@@ -127,6 +128,7 @@ selectedData3: any = [];
     //  console.log("dataDB = ");
      // console.log(this.listSubjectsDB );
       this.setQueques();
+      this.esEditar();
       
     }, error => {
       console.log(error);
@@ -150,7 +152,7 @@ selectedData3: any = [];
     //this.subjectWIthCheckBox2 =this.subjectWIthCheckBox;
     //this.subjectWIthCheckBox3 =this.subjectWIthCheckBox;
     
-    for (var i = 0; i < size ; i++) {
+    for (var i = 0; i < size +1; i++) {
       this.selectedData.push({ id: 0, header: i +"º año",data:this.subjectWIthCheckBox});
 
       
@@ -278,6 +280,7 @@ selectedData3: any = [];
           subjectName: data.name,
           subjectYear: data.year,
           radioYear: quarter,
+          radioType: 'Anual',
           order: data.order
         })
 
@@ -292,15 +295,18 @@ selectedData3: any = [];
         for (var i = 0; i < data.subjects.length; i++) {
           console.log(data.subjects[i]);
           for (var j = 0; j < this.subjectWIthCheckBox.length; j++) {
-            
+            console.log( this.subjectWIthCheckBox[j].subject.name + " == " + data.subjects[i].name);
             if(data.subjects[i].name == this.subjectWIthCheckBox[j].subject.name){
+              console.log("hay un select = true");
               this.subjectWIthCheckBox[j].isSelected = true;
             }
           }
         }
+        console.log("YA SEETIE LAS CHECK PRIMERR CHECK");
+        console.log(this.subjectWIthCheckBox );
 
         for (var i = 0; i < data.subjects2.length; i++) {
-          console.log(data.subjects2[i]);
+         // console.log(data.subjects2[i]);
           for (var j = 0; j < this.subjectWIthCheckBox2.length; j++) {
             
             if(data.subjects2[i].name == this.subjectWIthCheckBox2[j].subject.name){
@@ -310,7 +316,7 @@ selectedData3: any = [];
         }
 
         for (var i = 0; i < data.subjects3.length; i++) {
-          console.log(data.subjects3[i]);
+         // console.log(data.subjects3[i]);
           for (var j = 0; j < this.subjectWIthCheckBox3.length; j++) {
             
             if(data.subjects3[i].name == this.subjectWIthCheckBox3[j].subject.name){

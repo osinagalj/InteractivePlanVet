@@ -3,12 +3,13 @@
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="titulo">LISTADO DE PRODUCTOS</span>
+                    <span class="titulo">LISTADO DE MATERIAS</span>
                     <button class="btn btn-success float-end" routerLink="/crear-producto">NUEVO</button>
                     <table *ngIf="listSubjects.length > 0" class="table table-striped mt-3">
                         <thead>
                           <tr>
                             <th scope="col">Materia</th>
+                            <th scope="col">Orden</th>
                             <th scope="col">Año</th>
                             <th scope="col">Cuatrimestre</th>
 
@@ -18,6 +19,7 @@
                         <tbody>
                           <tr *ngFor="let subject of listSubjects">
                             <td>{{ subject.name }}</td>
+                            <td>{{ subject.order}}</td>
                             <td>{{ subject.year }}</td>
                             <td>{{ subject.quarter }}º </td>
                             <td>

@@ -8,6 +8,19 @@
     text-align: center;
     font-size: 0.8rem;
     background-color: #389FB1;
+
+}
+.subjectSemestral{
+    
+    height: 35px;
+    width: 140px;
+    margin-bottom: 1rem;
+    margin-right: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    background-color: #389FB1;
+
 }
 
 .header{
@@ -16,3 +29,6 @@
     background-color: #6b174e;
     
 }
+
+
+

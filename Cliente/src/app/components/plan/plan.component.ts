@@ -36,6 +36,16 @@ export class PlanComponent implements OnInit {
     this.obtenerProductos();
   }
 
+  existeMateria(year:Number){
+    for (var subject of this.listSubjectsDB) {
+      if(subject.year == year){
+          if(subject.quarter == 2){
+            return true;
+          }
+      }
+    }
+    return false;
+  }
   obtenerProductos() {
     this._subjectService.getProductos().subscribe(data => {
       this.listSubjectsDB = data;
@@ -45,11 +55,11 @@ export class PlanComponent implements OnInit {
       var onee : number = 1;
       for (var subject of this.listSubjectsDB) {
           if(subject.year > this.years){
-            
+            this.years = subject.year + 1;
           }
       }
      // this.years = this.years * two + one; //1 es el ingreso y 2 por los cuatrimestres
-      this.years = + 7;
+      //this.years = + 6;
       //this.years = this.years + Number(1);
     }, error => {
       console.log(error);
