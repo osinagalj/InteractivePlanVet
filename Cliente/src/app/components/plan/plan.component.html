@@ -91,14 +91,14 @@
       
       <div *ngIf="subject.year == (j) && subject.quarter == 1 ">
         
-        <div *ngIf="subject.order == 1">
+       
           <div id="{{subject.name}}" class="card subject" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
             <div>
                     {{ subject.name }}
                     <!-- <hr style="height: 2px;border-bottom: solid; color: rgb(187, 13, 13); width: 95%; margin-left: auto; margin-right: auto;"> -->
             </div>
          </div>
-        </div>
+        
 
         <!-- <div *ngIf="subject.order != 1">
           <div id="{{subject.name}}" class="card subjectSemestral" (mouseenter) ="changeColor(subject)" (mouseleave) ="resetColor()" (click)="changeColor(subject)">
@@ -125,7 +125,7 @@
   
     <div style = "    float: left;
     height: 81px;
-    width: 35px;
+    width: 34px;
     background-color: rgb(66, 66, 238);
     padding: 0.5rem;
     
